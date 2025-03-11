@@ -3,7 +3,7 @@
 adb shell dumpsys activity service com.android.systemui/.SystemUIService > SystemUIService.txt
 
 # nms dump
-adb shell dumpsys notification --noredact
+adb shell dumpsys notification --noredact > notification.txt
 
 adb shell dumpsys SurfaceFlinger > SurfaceFlinger.txt
 
@@ -28,7 +28,7 @@ secure    // 包含了一些安全相关的设置，如锁屏密码、Wi-Fi 密�
 global    // 包含了一些全局的设置，如时区、语言等。
 ```
 
-<Key> 定义在      `frameworks/base/core/java/android/provider/Settings.java
+<Key> 定义在      `frameworks/base/core/java/android/provider/Settings.java`
 
 栗子：
 
@@ -86,7 +86,7 @@ diff s1 s2 && diff g1 g2 && diff sys1 sys2
 ```
 
 
-## 5.  开启 bugger log
+## 5.  开启 buffer log
 
 ```Shell
 adb shell cmd statusbar echo -t <tagName>:<level>
@@ -137,7 +137,7 @@ LogBuffer 在记录的时候会传入 tag 和 level 参数，这个是日志的 
 adb shell cmd statusbar echo -t systemui.shade:verbose
 ```
 
-V 上可以用上述命令打开 buffer log，这样可以直接 logcat 实时抓
+V 上可以用上述命令打开 buffer log，然后 kill 对应进程，这样就可以直接 logcat 实时抓
 
 
 ## 6.  查找手机内某资源属性
