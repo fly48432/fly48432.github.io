@@ -145,3 +145,12 @@ V 上可以用上述命令打开 buffer log，然后 kill 对应进程，这样�
 ``` shell
 adb shell cmd overlay lookup --verbose com.android.systemui com.android.systemui:dimen/notification_panel_width
 ```
+
+## 7. adb 快速截图
+``` shell
+adb exec-out screencap -p > screenshot.png
+```
+- screencap -p 会在手机端生成一张 PNG 格式的屏幕截图；
+- exec-out 会把这个 PNG 文件的原始数据流直接输出到电脑；
+- > 是把这段数据重定向保存为本地文件 screen.png；
+- 整个过程不会在手机上留下文件，也比 adb shell + pull 更快。

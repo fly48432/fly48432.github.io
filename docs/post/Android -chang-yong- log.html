@@ -220,7 +220,19 @@ adb shell cmd statusbar <span class="pl-c1">echo</span> -t NotifCollection:V</pr
 <p>V 上可以用上述命令打开 buffer log，然后 kill 对应进程，这样就可以直接 logcat 实时抓</p>
 <h2>6.  查找手机内某资源属性</h2>
 <p>查找当前 dimen -- notification_panel_width</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">adb shell cmd overlay lookup --verbose com.android.systemui com.android.systemui:dimen/notification_panel_width</pre></div></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">adb shell cmd overlay lookup --verbose com.android.systemui com.android.systemui:dimen/notification_panel_width</pre></div>
+<h2>7. adb 快速截图</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">adb exec-out screencap -p <span class="pl-k">&gt;</span> screenshot.png</pre></div>
+<ul>
+<li>screencap -p 会在手机端生成一张 PNG 格式的屏幕截图；</li>
+<li>exec-out 会把这个 PNG 文件的原始数据流直接输出到电脑；</li>
+<li>
+<blockquote>
+<p>是把这段数据重定向保存为本地文件 screen.png；</p>
+</blockquote>
+</li>
+<li>整个过程不会在手机上留下文件，也比 adb shell + pull 更快。</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
