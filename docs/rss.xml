@@ -1,5 +1,68 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Dorian's Blog</title><link>https://fly48432.github.io</link><description>路漫漫其修远兮</description><copyright>Dorian's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://31842f9.webp.li/dorian-r2-image/fufu01.png</url><title>avatar</title><link>https://fly48432.github.io</link></image><lastBuildDate>Tue, 11 Mar 2025 08:06:46 +0000</lastBuildDate><managingEditor>Dorian's Blog</managingEditor><ttl>60</ttl><webMaster>Dorian's Blog</webMaster><item><title>Android 常用 log</title><link>https://fly48432.github.io/post/Android%20-chang-yong-%20log.html</link><description>## 1. 常用 dump
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Dorian's Blog</title><link>https://fly48432.github.io</link><description>路漫漫其修远兮</description><copyright>Dorian's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://31842f9.webp.li/dorian-r2-image/fufu01.png</url><title>avatar</title><link>https://fly48432.github.io</link></image><lastBuildDate>Tue, 08 Jul 2025 08:44:39 +0000</lastBuildDate><managingEditor>Dorian's Blog</managingEditor><ttl>60</ttl><webMaster>Dorian's Blog</webMaster><item><title>通知大致流程</title><link>https://fly48432.github.io/post/tong-zhi-da-zhi-liu-cheng.html</link><description>``` java
+NotificationManager.java    (framework)
+    | notify()
+    | notifyAsUser()
+        | service.enqueueNotificationWithTag( , , , , fixNotification (), )
+        
+NotificationManagerService.java    (framework)
+    | enqueueNotificationWithTag()
+    | enqueueNotificationInternal()
+    | enqueueNotificationInternal( , , )
+    | enqueueNotificationInternal( , , , , )
+        | fixNotification()
+        | StatusBarNotification    // SystemUI 会用
+        | NotificationChannel
+        | NotificationRecord    // framework 用
+        | checkDisqualifyingFeatures()
+        | mHandler.post(new EnqueueNotificationRunnable(userId, r, isAppForeground, tracker));
+        
+    EnqueueNotificationRunnable implements Runnable
+        | enqueueNotification()
+        | PostNotificationRunnable
+    
+    PostNotificationRunnable
+        | postNotification()
+        | notifyListenersPostedAndLogLocked()
+        | prepareNotifyPostedLocked() --&gt; NotificationListeners#prepareNotifyPostedLocked()
+        
+        
+        
+        
+        class NotificationListeners    (NotificationManagerService.java里)
+                // notifyRemoved
+                // This notification became invisible -&gt; remove the old one.
+                if (oldSbnVisible &amp;&amp; !sbnVisible) {
+                    final StatusBarNotification oldSbnLightClone = oldSbn.cloneLight();
+                    listenerCalls.add(() -&gt; notifyRemoved(
+                            info, oldSbnLightClone, update, null, REASON_USER_STOPPED));
+                    continue;
+                }
+                // notifyPosted 
+                final StatusBarNotification sbnToPost = trimCache.ForListener(info);
+                listenerCalls.add(() -&gt; notifyPosted(info, sbnToPost, update));
+                
+                
+            private void notifyPosted(final ManagedServiceInfo info,
+                final StatusBarNotification sbn, NotificationRankingUpdate rankingUpdate) {
+                final INotificationListener listener = (INotificationListener) info.service;
+                StatusBarNotificationHolder sbnHolder = new StatusBarNotificationHolder(sbn);
+                try {
+                    listener.onNotificationPosted(sbnHolder, rankingUpdate);
+                } catch (android.os.DeadObjectException ex) {
+                    Slog.wtf(TAG, 'unable to notify listener (posted): ' + info, ex);
+                } catch (RemoteException ex) {
+                    Slog.e(TAG, 'unable to notify listener (posted): ' + info, ex);
+                }
+            }
+                
+NotificationListener.java  (SystemUI)
+    onNotificationPosted()
+
+interface NotificationHandler （是NotificationListener.java 内部接口）
+    onNotificationPosted()
+    
+```。</description><guid isPermaLink="true">https://fly48432.github.io/post/tong-zhi-da-zhi-liu-cheng.html</guid><pubDate>Tue, 08 Jul 2025 08:37:33 +0000</pubDate></item><item><title>Android 常用 log</title><link>https://fly48432.github.io/post/Android%20-chang-yong-%20log.html</link><description>## 1. 常用 dump
 ``` shell
 adb shell dumpsys activity service com.android.systemui/.SystemUIService &gt; SystemUIService.txt
 
