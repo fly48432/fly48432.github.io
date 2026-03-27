@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://fly48432.github.io/project
+url: https://blog.daiyan.org
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -101,6 +101,6 @@ theme: starter
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: 'git'
-  repo: https://github.com/fly48432/fly48432.github.io
+  type: git
+  repo: https://github.com/fly48432/fly48432.github.io.git
   branch: main

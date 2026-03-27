@@ -11,7 +11,7 @@ menu:
   首页: /
   归档: /archives
   标签: /tags
-  文档: /docs/
+  # 文档: /docs/
   关于: /about
 
 # ===== 社交链接 =====
