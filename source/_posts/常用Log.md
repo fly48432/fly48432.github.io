@@ -1,6 +1,6 @@
 ---
 title: Android 常用 Log
-date: 2025.02.25
+date: 2025.02.11
 tags: [Android, Log]
 categories: Android
 description: 这是一篇关于 Android SystemUI 开发中常用的 dump 命令和 Log 分析技巧的总结。

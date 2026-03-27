@@ -90,7 +90,7 @@ appearance:
 # ===== 页脚配置 =====
 footer:
   # 建站年份
-  since: 2025
+  since: 2024
   # 备案信息（中国大陆）
   icp:
   # 自定义内容（支持 HTML）
