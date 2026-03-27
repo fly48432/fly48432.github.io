@@ -28,15 +28,14 @@ jobs:
 
       - name: Deploy
         env:
-          # 确保你在 Secrets 里配置的名字和这里一致
-          HEXO_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+          HEXO_DEPLOY_PRI: ${{ secrets.HEXO_DEPLOY_PRI }}
         run: |
           git config --global user.name "fly48432"
           git config --global user.email "fly48432@gmail.com"
           
-          # 这里的替换逻辑加入了 .git 后缀兼容性处理
-          # 它会把你 _config.yml 里的 repo 地址临时替换为带 Token 的地址
-          sed -i "s|https://github.com/fly48432/fly48432.github.io|https://${HEXO_DEPLOY_KEY}@github.com/fly48432/fly48432.github.io.git|g" _config.yml
+          # 更加精准的匹配：直接替换 repo: 后面直到行尾的内容
+          # 这样无论你原来的地址带不带 .git，都会被替换为正确的带 Token 地址
+          sed -i "s|repo:.*|repo: https://${HEXO_DEPLOY_PRI}@github.com/fly48432/fly48432.github.io.git|g" _config.yml
           
           npx hexo clean
           npx hexo deploy
