@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- 标题 -->
+<title>Android 常用 Log | Dorian&#39;s Blogs</title>
+
+<!-- 网站描述 -->
+<meta name="description" content="这是一篇关于 Android SystemUI 开发中常用的 dump 命令和 Log 分析技巧的总结。">
+<meta name="keywords" content="Android,Log">
+<meta name="author" content="Dorian">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 常用 Log">
+<meta property="og:description" content="这是一篇关于 Android SystemUI 开发中常用的 dump 命令和 Log 分析技巧的总结。">
+<meta property="og:url" content="https://blog.daiyan.org/2025/02/10/%E5%B8%B8%E7%94%A8Log/index.html">
+<meta property="og:site_name" content="Dorian&#39;s Blogs">
+
+
+<!-- Favicon -->
+
+<link rel="icon" href="https://31842f9.webp.li/dorian-r2-image/fufu01.png">
+
+
+<!-- 预连接 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- 字体 -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- 样式表 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- RSS -->
+
+
+<!-- 规范链接 -->
+<link rel="canonical" href="https://blog.daiyan.org/2025/02/10/%E5%B8%B8%E7%94%A8Log/index.html">
+
+<!-- 主题色 -->
+<meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1e293b" media="(prefers-color-scheme: dark)">
+
+<!-- 自定义样式变量 -->
+<style>
+  :root {
+    --primary-color: #2563eb;
+  }
+</style>
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  <header class="site-header">
+  <div class="header-container">
+    <!-- Logo / 站点标题 -->
+    <div class="site-brand">
+      <a href="/" class="site-logo">
+        
+          <span class="site-title">Dorian&#39;s Blogs</span>
+        
+      </a>
+    </div>
+
+    <!-- 导航菜单 -->
+    <nav class="site-nav">
+      <ul class="nav-list">
+        
+          <li class="nav-item">
+            <a href="/" 
+               class="nav-link ">
+              首页
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/archives" 
+               class="nav-link ">
+              归档
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/tags" 
+               class="nav-link ">
+              标签
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/about" 
+               class="nav-link ">
+              关于
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <!-- 工具栏 -->
+    <div class="header-tools">
+      <!-- 搜索按钮 -->
+      
+        <button class="tool-btn search-toggle" aria-label="搜索" title="搜索">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </button>
+      
+
+      <!-- 主题切换 -->
+      
+        <button class="tool-btn theme-toggle" aria-label="切换主题" title="切换主题">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </button>
+      
+
+      <!-- 移动端菜单按钮 -->
+      <button class="tool-btn menu-toggle" aria-label="菜单" title="菜单">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 移动端导航 -->
+  <div class="mobile-nav">
+    <ul class="mobile-nav-list">
+      
+        <li class="mobile-nav-item">
+          <a href="/" 
+             class="mobile-nav-link ">
+            首页
+          </a>
+        </li>
+      
+        <li class="mobile-nav-item">
+          <a href="/archives" 
+             class="mobile-nav-link ">
+            归档
+          </a>
+        </li>
+      
+        <li class="mobile-nav-item">
+          <a href="/tags" 
+             class="mobile-nav-link ">
+            标签
+          </a>
+        </li>
+      
+        <li class="mobile-nav-item">
+          <a href="/about" 
+             class="mobile-nav-link ">
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  
+  <main class="main-content">
+    <div class="container">
+      <div class="page-layout post-layout">
+  <article class="post-article">
+    <!-- 文章头部 -->
+    <header class="post-header">
+      <h1 class="post-title">Android 常用 Log</h1>
+      
+      <!-- 元信息 -->
+      <div class="post-meta">
+  <!-- 发布日期 -->
+  <span class="meta-item meta-date">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+      <line x1="16" x2="16" y1="2" y2="6"></line>
+      <line x1="8" x2="8" y1="2" y2="6"></line>
+      <line x1="3" x2="21" y1="10" y2="10"></line>
+    </svg>
+    <time datetime="2025-02-11">
+      2025-02-11
+    </time>
+  </span>
+
+  <!-- 更新日期 -->
+  
+
+  <!-- 字数统计 -->
+  
+    <span class="meta-item meta-wordcount">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 6.1H3"></path>
+        <path d="M21 12.1H3"></path>
+        <path d="M15.1 18H3"></path>
+      </svg>
+      
+      3.1k 字
+    </span>
+  
+
+  <!-- 阅读时间 -->
+  
+    <span class="meta-item meta-readtime">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      
+      约 11 分钟
+    </span>
+  
+
+  <!-- 标签（仅在列表页显示前几个） -->
+  
+</div>
+
+      
+      <!-- 封面图 -->
+      
+    </header>
+
+    <!-- 文章内容 -->
+    <div class="post-content markdown-body">
+      <h2 id="1-常用-dump"><a href="#1-常用-dump" class="headerlink" title="1. 常用 dump"></a>1. 常用 dump</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys activity service com.android.systemui/.SystemUIService &gt; SystemUIService.txt</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">nms dump</span></span><br><span class="line">adb shell dumpsys notification --noredact &gt; notification.txt</span><br><span class="line"></span><br><span class="line">adb shell dumpsys SurfaceFlinger &gt; SurfaceFlinger.txt</span><br><span class="line"></span><br><span class="line">adb shell dumpsys window &gt; window.txt</span><br><span class="line"></span><br><span class="line">adb logcat -b events </span><br></pre></td></tr></table></figure>
+
+<h2 id="2-adb-shell-settings-get"><a href="#2-adb-shell-settings-get" class="headerlink" title="2. adb  shell settings get"></a>2. adb  shell settings get</h2><p>可以用来获取 Android 设备上的<strong>系统设置（配置）</strong>。</p>
+<p>命令格式：<code>adb shell settings get &lt;namespace&gt; &lt;key&gt;</code></p>
+<p>其中 namespace 是设置所在的命名空间，key 是设置的键名(字段)。</p>
+<p><namespace> 参数设置为 <code>system</code>、<code>secure</code> 或 <code>global</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system    <span class="comment">// 包含了一些系统级别的设置，如屏幕亮度、音量等</span></span><br><span class="line">secure    <span class="comment">// 包含了一些安全相关的设置，如锁屏密码、Wi-Fi 密码等</span></span><br><span class="line">global    <span class="comment">// 包含了一些全局的设置，如时区、语言等。</span></span><br></pre></td></tr></table></figure>
+
+<p><Key> 定义在      <code>frameworks/base/core/java/android/provider/Settings.java</code></p>
+<p>栗子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings list    // 返回所有设置的键名和值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">adb shell settings get system battery_indicator_style      // 获取电池图标样式</span><br><span class="line"></span><br><span class="line">adb shell settings put secure user_setup_complete 1        // 跳过开机向导</span><br><span class="line">adb shell settings put global device_provisioned 1</span><br><span class="line"></span><br><span class="line">adb shell settings delete global http_proxy                // 移除代理</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-adb-shell-getprop-setprop"><a href="#3-adb-shell-getprop-setprop" class="headerlink" title="3. adb shell getprop&#x2F;setprop"></a>3. adb shell getprop&#x2F;setprop</h2><p>从系统的各种配置文件中读取一些设备的信息，用来获取 Android 设备上的<strong>系统属性</strong>。</p>
+<p>这些信息可以在手机设备中找到</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">init.rc</span><br><span class="line">default.prop</span><br><span class="line">/system/build.prop</span><br></pre></td></tr></table></figure>
+
+<p>命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell getprop [key]</span><br><span class="line"></span><br><span class="line">adb shell setprop [key] [value]</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-快速查看手机中设置项settings"><a href="#4-快速查看手机中设置项settings" class="headerlink" title="4. 快速查看手机中设置项settings"></a>4. 快速查看手机中设置项settings</h2><ol>
+<li>先list现有的settings值：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings list secure &gt;s1 &amp;&amp; adb shell settings list global&gt;g1 &amp;&amp; adb shell settings list system&gt;sys1</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>操作更改设置项</li>
+<li>list 修改后的settings值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings list secure &gt;s2 &amp;&amp; adb shell settings list global&gt;g2 &amp;&amp; adb shell settings list system&gt;sys2</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>Diff</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff s1 s2 &amp;&amp; diff g1 g2 &amp;&amp; diff sys1 sys2</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-开启-buffer-log"><a href="#5-开启-buffer-log" class="headerlink" title="5.  开启 buffer log"></a>5.  开启 buffer log</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb shell cmd statusbar echo -t &lt;tagName&gt;:&lt;level&gt;</span><br><span class="line">adb shell cmd statusbar echo -b &lt;bufferName&gt;:&lt;level&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">eg:</span> </span><br><span class="line">adb shell cmd statusbar echo -t NotifCollection:V</span><br></pre></td></tr></table></figure>
+
+<p>详细：</p>
+<p>【参考类】com.android.systemui.log.LogBuffer</p>
+<p>LogBuffer 是 SystemUI 记录日志的工具，正常情况下，只有在生成 BugReport 的时候，才会全部转储</p>
+<p>【在 logcat 中使用】</p>
+<p>正常只有大于等于 warn 级别的，才会回显到 logcat 中；但是它可以通过相关的命令实现回显到 logcat 中</p>
+<p>LogBuffer 在构造的时候会传入 name 参数，这个就是 Buffer 的名称</p>
+<p>LogBuffer 在记录的时候会传入 tag 和 level 参数，这个是日志的 tag 和级别</p>
+<p>在进行回显的时候，可以针对 Buffer 或者针对 Tag 设置 level 级别的回显</p>
+<ol>
+<li>针对Buffer级别<ol>
+<li><pre><code class="language-Shell">adb shell cmd statusbar echo -b &lt;bufferName&gt;:&lt;level&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   2.   bufferName 在子类构造的时候便会传入，如果是通过注解生成的，大概率是该类名称</span><br><span class="line"></span><br><span class="line">   3.   也可以通过BugReport去查询下</span><br><span class="line"></span><br><span class="line">   4.   以NotificationPanelViewController为例，它使用的是ShadeLog，它的Buffer名称就是“ShadeLog”</span><br><span class="line"></span><br><span class="line">   5.   如果需要将整个ShadeLog全部回显到logcat中，可以执行以下命令</span><br><span class="line"></span><br><span class="line">   6.   adb shell cmd statusbar echo -b ShadeLog:verbose</span><br><span class="line">2. 针对 tag 级别</span><br><span class="line">   1. ```Shell</span><br><span class="line">      adb shell cmd statusbar echo -t &lt;tagName&gt;:&lt;level&gt;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<p> 道理同上，以 ShadeLog 为例，<code>systemui.shade</code>即为 tag</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell cmd statusbar echo -t systemui.shade:verbose</span><br></pre></td></tr></table></figure>
+
+<p>V 上可以用上述命令打开 buffer log，然后 kill 对应进程，这样就可以直接 logcat 实时抓</p>
+<h2 id="6-查找手机内某资源属性"><a href="#6-查找手机内某资源属性" class="headerlink" title="6.  查找手机内某资源属性"></a>6.  查找手机内某资源属性</h2><p>查找当前 dimen – notification_panel_width</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell cmd overlay lookup --verbose com.android.systemui com.android.systemui:dimen/notification_panel_width</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-adb-快速截图"><a href="#7-adb-快速截图" class="headerlink" title="7. adb 快速截图"></a>7. adb 快速截图</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb exec-out screencap -p &gt; screenshot.png</span><br></pre></td></tr></table></figure>
+<ul>
+<li>screencap -p 会在手机端生成一张 PNG 格式的屏幕截图；</li>
+<li>exec-out 会把这个 PNG 文件的原始数据流直接输出到电脑；</li>
+<li><blockquote>
+<p>是把这段数据重定向保存为本地文件 screen.png；</p>
+</blockquote>
+</li>
+<li>整个过程不会在手机上留下文件，也比 adb shell + pull 更快。</li>
+</ul>
+
+    </div>
+
+    <!-- 标签 -->
+    
+      <div class="post-tags">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path>
+          <path d="M7 7h.01"></path>
+        </svg>
+        
+          <a href="/tags/Android/" class="tag-link">Android</a>
+        
+          <a href="/tags/Log/" class="tag-link">Log</a>
+        
+      </div>
+    
+
+    <!-- 版权信息 -->
+    
+      <div class="post-copyright">
+        <p><strong>本文作者：</strong>Dorian</p>
+        <p><strong>本文链接：</strong><a href="https://blog.daiyan.org/2025/02/10/%E5%B8%B8%E7%94%A8Log/">https://blog.daiyan.org/2025/02/10/%E5%B8%B8%E7%94%A8Log/</a></p>
+        <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</p>
+      </div>
+    
+
+    <!-- 上一篇 / 下一篇 -->
+    <nav class="post-nav">
+      
+        <a href="/2025/07/07/%E9%80%9A%E7%9F%A5%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B/" class="post-nav-item prev">
+          <span class="post-nav-label">上一篇</span>
+          <span class="post-nav-title">通知大致流程</span>
+        </a>
+      
+      
+      
+        <a href="/2024/12/09/first%20page/" class="post-nav-item next">
+          <span class="post-nav-label">下一篇</span>
+          <span class="post-nav-title">first page</span>
+        </a>
+      
+    </nav>
+  </article>
+
+  <!-- TOC 目录 -->
+  
+    <aside class="post-toc">
+      <div class="toc-wrapper">
+        <h3 class="toc-title">目录</h3>
+        <div class="toc-content">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8-dump"><span class="toc-text">1. 常用 dump</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-adb-shell-settings-get"><span class="toc-text">2. adb  shell settings get</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-adb-shell-getprop-setprop"><span class="toc-text">3. adb shell getprop&#x2F;setprop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%BF%AB%E9%80%9F%E6%9F%A5%E7%9C%8B%E6%89%8B%E6%9C%BA%E4%B8%AD%E8%AE%BE%E7%BD%AE%E9%A1%B9settings"><span class="toc-text">4. 快速查看手机中设置项settings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%BC%80%E5%90%AF-buffer-log"><span class="toc-text">5.  开启 buffer log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9F%A5%E6%89%BE%E6%89%8B%E6%9C%BA%E5%86%85%E6%9F%90%E8%B5%84%E6%BA%90%E5%B1%9E%E6%80%A7"><span class="toc-text">6.  查找手机内某资源属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-adb-%E5%BF%AB%E9%80%9F%E6%88%AA%E5%9B%BE"><span class="toc-text">7. adb 快速截图</span></a></li></ol>
+        </div>
+      </div>
+    </aside>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <!-- 版权信息 -->
+      <div class="footer-copyright">
+        <p>
+          &copy; 
+          
+            2024 - 
+          
+          2026 
+          <a href="/">Dorian</a>
+        </p>
+      </div>
+
+      <!-- 社交链接 -->
+      
+        <div class="footer-social">
+          
+          
+          
+            <a href="jdy618@outlook.com" aria-label="Email" title="Email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </a>
+          
+        </div>
+      
+
+      <!-- 技术支持 -->
+      <div class="footer-powered">
+        <p>
+          Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a>
+          <span class="separator">|</span>
+          Theme Starter
+        </p>
+      </div>
+
+      <!-- 备案信息 -->
+      
+
+      <!-- 自定义内容 -->
+      
+    </div>
+  </div>
+</footer>
+
+  
+  <!-- 搜索模态框 -->
+  
+    <div id="search-modal" class="search-modal">
+  <div class="search-container">
+    <!-- 搜索头部 -->
+    <div class="search-header">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input 
+          type="text" 
+          id="search-input" 
+          class="search-input" 
+          placeholder="搜索文章、文档..." 
+          autocomplete="off"
+          autofocus
+        >
+        <button class="search-close" aria-label="关闭">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="search-shortcut">
+        <kbd>ESC</kbd> 关闭
+        <span class="shortcut-divider">|</span>
+        <kbd>↑</kbd><kbd>↓</kbd> 导航
+        <span class="shortcut-divider">|</span>
+        <kbd>Enter</kbd> 打开
+      </div>
+    </div>
+
+    <!-- 搜索结果 -->
+    <div id="search-results" class="search-results">
+      <div class="search-tip">输入关键词开始搜索</div>
+    </div>
+
+    <!-- 搜索页脚 -->
+    <div class="search-footer">
+      <span class="search-footer-text">
+        <kbd>Ctrl</kbd> + <kbd>K</kbd> 快速搜索
+      </span>
+    </div>
+  </div>
+</div>
+
+  
+
+  <!-- 站点配置 -->
+  <script>
+    window.STARTER_CONFIG = {
+      root: '/',
+      searchEnabled: true
+    };
+  </script>
+
+  <!-- 主脚本 -->
+  
+<script src="/js/main.js"></script>
+
+  
+  
+    
+<script src="/js/search.js"></script>
+
+  
+  
+  
+    
+<script src="/js/doc-sidebar.js"></script>
+
+  
+</body>
+</html>
